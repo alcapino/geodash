@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import environment from '../environment';
 import GeoContext from './GeoContext';
 
 export const GeoContextProvider = (props) => {
@@ -53,9 +54,16 @@ export const GeoContextProvider = (props) => {
     setEndDate: setEndDate,
     startDate: startDate,
     endDate: endDate,
-    contextData: {
-      geopoints: geopoints,
+    geoData: {
+      points: geopoints,
       magnitudes: magnitudes
+    },
+    map: {
+      key: environment.mapapi.key,
+      lng: environment.mapapi.lng,
+      lat: environment.mapapi.lat,
+      zoom: environment.mapapi.zoom,
+      options: environment.mapapi.options
     }
   };
 

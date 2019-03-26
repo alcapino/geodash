@@ -8,18 +8,15 @@ import {
 import {withGeoContext} from '../../GeoContext/withGeoContext';
 
 const DashMap = withScriptjs(withGoogleMap(props =>{
-  const markers = props.contextData.geopoints.map(
+  const markers = props.geoData.points.map(
     (point, i) => <Marker key={i} position={{lat: point[1],lng: point[0]}} />
   );
   return(
     <GoogleMap
-      defaultZoom={6}
-      defaultCenter={{ lat: 12.8797207, lng: 121.7740173 }}
+      defaultZoom={props.map.zoom}
+      defaultCenter={{ lat: props.map.lat, lng: props.map.lng }}
       height={'100%'}
-      defaultOptions={{
-        mapTypeControl: false,
-        mapTypeId: 'terrain'
-      }}
+      defaultOptions={props.map.options}
     >
       {markers}
     </GoogleMap>
