@@ -16,6 +16,10 @@ const DashMap = withScriptjs(withGoogleMap(props =>{
       defaultZoom={6}
       defaultCenter={{ lat: 12.8797207, lng: 121.7740173 }}
       height={'100%'}
+      defaultOptions={{
+        mapTypeControl: false,
+        mapTypeId: 'terrain'
+      }}
     >
       {markers}
     </GoogleMap>
