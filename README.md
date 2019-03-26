@@ -1,3 +1,11 @@
+## Setup Guide
+
+Set approppriate configs at:
+
+#### `src/enviroment.js`
+
+**Refer to `src/SAMPLE_enviroment.js` to discover which values are to be set**
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
