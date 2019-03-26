@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 
 import './Dashboard.css';
 import DashMap from '../DashMap';
@@ -6,8 +6,6 @@ import DatePicker from 'react-date-picker';
 import {withGeoContext} from '../../GeoContext/withGeoContext';
 
 export const Dashboard = props => {
-  const handleChange = () => {};
-
   useEffect(()=>{
     props.getGeoData(props.startDate,props.endDate);
   },[props.startDate,props.endDate]);

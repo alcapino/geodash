@@ -24,17 +24,16 @@ export const GeoContextProvider = (props) => {
   }
 
   const getGeoData = (start,end) => {
-    console.log('start,end: ',start,end);
-
-    const FORMAT = 'geojson';
-    const STARTDATE = `${start.getFullYear()}-${start.getMonth()}-${start.getDate()}`;
+    const STARTTIME = `${start.getFullYear()}-${start.getMonth()}-${start.getDate()}`;
     const ENDTIME = `${end.getFullYear()}-${end.getMonth()}-${end.getDate()}`;
-    const LON = '121.802730';
-    const LAT = '12.151756';
-    const RADIUS = '1000';
-    const usgsurl = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=${FORMAT}&starttime=${STARTDATE}&endtime=${ENDTIME}&longitude=${LON}&latitude=${LAT}&maxradiuskm=${RADIUS}`;
-    console.log(usgsurl);
 
+    let usgsurl = new URL(environment.usgsapi.url);
+    let params = environment.usgsapi.params;
+    Object.assign(params, {
+      starttime: STARTTIME,
+      endtime: ENDTIME,
+    });
+    Object.keys(params).forEach(key => usgsurl.searchParams.append(key, params[key]));
 
     fetch(usgsurl)
       .then(res => res.json())
