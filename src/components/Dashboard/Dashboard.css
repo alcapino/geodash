@@ -2,25 +2,60 @@
 .dash {
   position: relative;
 }
-.dash-filter {
+.dash-sidebar{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 100px;
+}
+
+.dash, .dash-map {
+  height: 100%;
+  width: 100%;
+}
+
+.dash-box {
+  display: flex;
+  
   width: 400px;
-  height: 50px;
+  height: auto;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   box-sizing: border-box;
-  z-index: 3000;
+  
 
   align-items: center;
   justify-content: space-around;
   border: 1px solid #e0e0e0;
-  position: absolute;
-  right: 100px;
+  
   background-color: white;
-  margin: 15px 0 0 0;
+  margin: 15px 0 15px 0;
+  padding: 10px;
 }
-.dash, .dash-map {
-  height: 100%;
-  width: 100%;
+
+.dash-box.filter{
+  flex-direction: row;
+  z-index: 3000;
+}
+
+.dash-box.events{
+  flex-direction: column;
+  z-index: 2999;
+}
+.dash-box.events ul{
+  height: 200px;
+  overflow: scroll;
+  list-style-type: none;
+}
+
+.dash-box.events li{
+  margin: 5px;
+  cursor: pointer;
+}
+
+.dash-box.detail {
+  flex-direction: column;
+  z-index: 2999;
 }

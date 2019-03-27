@@ -10,19 +10,37 @@ export const Dashboard = props => {
     props.getGeoData(props.startDate,props.endDate);
   },[props.startDate,props.endDate]);
 
+  const events = props.geoData.events.map(
+    (event, i) => <li key={i} onClick={() => props.showDetail(event.id)} >{event.place}</li>
+  );
+
   return (
     <div className="dash">
-      <div className="dash-filter">
-        Start: <DatePicker
-          clearIcon={null}
-          value={props.startDate}
-          onChange={(start) => props.setStartDate(start)}
-        />
-        End: <DatePicker
-          clearIcon={null}
-          value={props.endDate}
-          onChange={(end) => props.setEndDate(end)}
-        />
+      <div className="dash-sidebar">
+        <div className="dash-box filter">
+          Start: <DatePicker
+            clearIcon={null}
+            value={props.startDate}
+            onChange={(start) => props.setStartDate(start)}
+          />
+          End: <DatePicker
+            clearIcon={null}
+            value={props.endDate}
+            onChange={(end) => props.setEndDate(end)}
+          />
+        </div>
+        <div className="dash-box detail">
+          <h3>Details: </h3>
+          <ul>
+            alekfnj
+          </ul>
+        </div>
+        <div className="dash-box events">
+          <h3>Activities ({props.geoData.count})</h3>
+          <ul>
+            {events}
+          </ul>
+        </div>
       </div>
       <div className="dash-map">
         <DashMap 
