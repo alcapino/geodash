@@ -9,13 +9,14 @@ import {withGeoContext} from '../../GeoContext/withGeoContext';
 
 const DashMap = withScriptjs(withGoogleMap(props =>{
   const markers = props.geoData.points.map(
-    (point, i) => <Marker key={i} position={{lat: point[1],lng: point[0]}} />
+    (point, i) => <Marker key={i} position={{lat: point.coords[1],lng: point.coords[0]}} onClick={() => props.getDetail(point.url)}/>
   );
   return(
     <GoogleMap
       defaultZoom={props.map.zoom}
-      defaultCenter={{ lat: props.map.lat, lng: props.map.lng }}
-      height={'100%'}
+      defaultCenter={props.map.initialCenter}
+      zoom={props.map.zoom}
+      center={props.map.center}
       defaultOptions={props.map.options}
     >
       {markers}

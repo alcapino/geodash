@@ -40,18 +40,20 @@
   z-index: 3000;
 }
 
-.dash-box.events{
+.dash-box.features{
   flex-direction: column;
   z-index: 2999;
 }
-.dash-box.events ul{
+.dash-box.features ul{
   height: 200px;
   overflow: scroll;
   list-style-type: none;
 }
 
-.dash-box.events li{
+.dash-box.features ul,
+.dash-box.features li{
   margin: 5px;
+  padding: 0px;
   cursor: pointer;
 }
 

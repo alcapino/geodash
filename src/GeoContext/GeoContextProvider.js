@@ -4,10 +4,11 @@ import GeoContext from './GeoContext';
 
 export const GeoContextProvider = (props) => {
 
+  const [mapCenter, setMapCenter] = useState(environment.mapapi.initialCenter);
+  const [mapZoom, setMapZoom] = useState(environment.mapapi.zoom);
   const [geopoints,setGeopoints] = useState([]);
-  const [magnitudes,setMagnitudes] = useState([]);
-  const [events,setEvents] = useState([]);
-  const [eventCount,setEventCount] = useState(0);
+  const [feature,setFeature] = useState(false);
+  const [featureCount,setFeatureCount] = useState(0);
   const now = new Date();
   const [startDate,setStartDate] = useState(new Date(now.setDate(now.getDate() - 1)));
   const [endDate,setEndDate] = useState(new Date());
@@ -15,22 +16,22 @@ export const GeoContextProvider = (props) => {
 
   const collectData = data => {
     let points = [];
-    let mags = [];
-    let geoEvents = [];
+    let details = {};
 
-    data.features.forEach( point => { 
-      points.push(point.geometry.coordinates);
-      mags.push(point.properties.mag);
-      geoEvents.push({
-        id: point.id,
+    data.features.forEach( point => {
+      details = {
+        coords: point.geometry.coordinates,
+        mag: point.properties.mag,
         place: point.properties.place,
-        mag: point.properties.mag
-      });
+        url: point.properties.detail,
+      };
+      points.push(details);
     });
+    setMapZoom(environment.mapapi.initialZoom);
+    setMapCenter(environment.mapapi.initialCenter);
     setGeopoints(points);
-    setMagnitudes(mags);
-    setEvents(geoEvents);
-    setEventCount(data.metadata.count || 0);
+    setFeature(false);
+    setFeatureCount(data.metadata.count || 0);
   }
 
   const getGeoData = (start,end) => {
@@ -57,28 +58,38 @@ export const GeoContextProvider = (props) => {
       );
   }
 
-  const showDetail = id => {
-    console.log('id',id);
+  const getDetail = url => {
+    fetch(url)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setFeature(result);
+          setMapZoom(environment.mapapi.featureZoom);
+          setMapCenter({lat: result.geometry.coordinates[1],lng: result.geometry.coordinates[0]});
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   const PROVIDER_DATA = {
     getGeoData: getGeoData,
-    showDetail: showDetail,
+    getDetail: getDetail,
     setStartDate: setStartDate,
     setEndDate: setEndDate,
     startDate: startDate,
     endDate: endDate,
     geoData: {
-      count: eventCount,
-      events:events,
+      count: featureCount,
       points: geopoints,
-      magnitudes: magnitudes
+      feature: feature
     },
     map: {
       key: environment.mapapi.key,
-      lng: environment.mapapi.lng,
-      lat: environment.mapapi.lat,
-      zoom: environment.mapapi.zoom,
+      initialCenter: environment.mapapi.initialCenter,
+      center: mapCenter,
+      zoom: mapZoom,
       options: environment.mapapi.options
     }
   };

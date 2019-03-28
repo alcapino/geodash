@@ -10,8 +10,8 @@ export const Dashboard = props => {
     props.getGeoData(props.startDate,props.endDate);
   },[props.startDate,props.endDate]);
 
-  const events = props.geoData.events.map(
-    (event, i) => <li key={i} onClick={() => props.showDetail(event.id)} >{event.place}</li>
+  const features = props.geoData.points.map(
+    (feature, i) => <li key={i} onClick={() => props.getDetail(feature.url)} >{feature.place}</li>
   );
 
   return (
@@ -29,17 +29,21 @@ export const Dashboard = props => {
             onChange={(end) => props.setEndDate(end)}
           />
         </div>
-        <div className="dash-box detail">
-          <h3>Details: </h3>
-          <ul>
-            alekfnj
-          </ul>
-        </div>
-        <div className="dash-box events">
+        { (props.geoData.feature !== false) && 
+          (<div className="dash-box detail">
+            <h3 >Details</h3>
+            <h5>Location:</h5> {props.geoData.feature.properties.place}
+            <h5>Magnitude:</h5> {props.geoData.feature.properties.mag}
+            <h5>Time occurred:</h5> {props.geoData.feature.properties.time}
+            <h5>Updated:</h5> {props.geoData.feature.properties.updated}
+
+          </div>)
+        }
+        <div className="dash-box features">
           <h3>Activities ({props.geoData.count})</h3>
-          <ul>
-            {events}
-          </ul>
+          { props.geoData.count > 0 &&
+            <ul> {features} </ul>
+          }
         </div>
       </div>
       <div className="dash-map">
